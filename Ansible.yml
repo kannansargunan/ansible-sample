@@ -1,0 +1,17 @@
+---
+- hosts: all
+  connection: ssh
+  gather_facts: no
+  tasks:
+   - name: Install Apache package
+     apt: pkg=apache2 state=installed update_cache=true
+   - name: Restart HTTPD
+     service: name=apache2 state=started
+   - name: add a cron job to the node
+     cron: minute="0" hour="1" job="ls -a"
+   - name: create the user call tomcat
+     group: name=tomcat gid=1234 state=present
+   - name: create the user call tomcat
+     user: name=tomcat shell=/bin/bash
+   - name: find the date in hosts
+     raw: /usr/bin/uptime
